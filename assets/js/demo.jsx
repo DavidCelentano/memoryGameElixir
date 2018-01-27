@@ -3,29 +3,30 @@ import ReactDOM from 'react-dom';
 import { Button } from 'reactstrap';
 
 export default function run_demo(root) {
-  ReactDOM.render(<Demo side={0}/>, root);
+  ReactDOM.render(<Demo moves={0} />, root);
 }
 
 class Demo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { side: props.side };
+    this.state = { moves: 0, tiles:['a', 'b', 'a', 'b', 'c', 'd', 'c', 'd', 'e', 'f', 'e', 'f', 'g', 'h', 'g', 'h']}; //TODO RANDOM
   }
 
-  toggle(side) {
-    var side = +!this.state.side;
-    this.setState({side: side});
+  increment(moves) {
+    var moves = 1 + this.state.moves;
+    this.setState({moves: moves});
   }
 
   render() {
-    var toggle = this.toggle.bind(this);
+    var increment = this.increment.bind(this);
     return (
       <div className="row">
-        <Side show={this.state.side == 0} toggle={toggle} />
         <div className="col">
-          &nbsp;
+	  <Side show={this.state.moves == 0} increment={increment} value={this.state.tiles[0]} />
+	  <Side show={this.state.moves == 0} increment={increment} value={this.state.tiles[1]} />
+	  <Side show={this.state.moves == 0} increment={increment} value={this.state.tiles[2]} />
+	  <Side show={this.state.moves == 0} increment={increment} value={this.state.tiles[3]} />
         </div>
-        <Side show={this.state.side == 1} toggle={toggle} />
       </div>
     );
   }
@@ -34,15 +35,15 @@ class Demo extends React.Component {
 function Side(params) {
   if (params.show) {
     return (
-      <div id="side-0" className="side col" onMouseOver={ () => params.toggle() }>
-        <Button onClick={ () => alert("cheater") }>Click Me</Button>
+      <div id="side-0" className="side col" onClick={() => params.increment()} >
+        <Button>{params.value}</Button>
       </div>
     );
   }
   else {
     return (
       <div id="side-0" className="side col">
-        &nbsp;
+	<p>{params.moves}</p>
       </div>
     );
   }
