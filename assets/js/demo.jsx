@@ -9,7 +9,7 @@ export default function run_demo(root) {
 class Demo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { moves: 0, tiles:['a', 'b', 'a', 'b', 'c', 'd', 'c', 'd', 'e', 'f', 'e', 'f', 'g', 'h', 'g', 'h'], matches: [], guess: 'a'}; //TODO RANDOM
+    this.state = { moves: 0, tiles:['a', 'b', 'a', 'b', 'c', 'd', 'c', 'd', 'e', 'f', 'e', 'f', 'g', 'h', 'g', 'h'], matches: [], guess: '1'}; //TODO RANDOM
   }
 
   increment(moves) {
@@ -18,17 +18,15 @@ class Demo extends React.Component {
   }
   
   makeGuess(value) {
-   // console.log("guess made");
-   // var value = 'a'
     if (this.state.guess == '1') {
       this.setState({guess: value});
     }
     else {
       if (this.state.guess == value) {
-     //   console.log(value);
         var nMatches = this.state.matches;
         nMatches.push(value);
         this.setState({matches: nMatches});
+        this.setState({guess: '1'});//reset guess
       }
     }
   }
@@ -40,6 +38,7 @@ class Demo extends React.Component {
       <div className="row">
         <div className="col">
 	  <Side state={this.state} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} />
+          <Side state={this.state} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} />
         </div>
       </div>
     );
@@ -48,7 +47,6 @@ class Demo extends React.Component {
 
 function Side(params) {
   if (params.matches.includes(params.value)) {
-    console.log("showing letter");
     return (
       <div id="side-0" className="side col">
         <Button>{params.value}</Button>
@@ -56,7 +54,6 @@ function Side(params) {
     );
   }
   else {
-    console.log("showing ?");
     return (
       <div id="side-0" className="side col">
 	<Button onClick={() => params.makeGuess(params.value)}>?</Button>
