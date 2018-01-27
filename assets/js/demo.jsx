@@ -9,7 +9,7 @@ export default function run_demo(root) {
 class Demo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { moves: 0, tiles:['a', 'b', 'a', 'b', 'c', 'd', 'c', 'd', 'e', 'f', 'e', 'f', 'g', 'h', 'g', 'h'], matches: [], guess: '1'}; //TODO RANDOM
+    this.state = { moves: 0, tiles:['a', 'b', 'a', 'b', 'c', 'd', 'c', 'd', 'e', 'f', 'e', 'f', 'g', 'h', 'g', 'h'], matches: [], guess: '1', guessIndex: []}; //TODO RANDOM
   }
 
   increment(moves) {
@@ -17,9 +17,13 @@ class Demo extends React.Component {
     this.setState({moves: moves});
   }
   
-  makeGuess(value) {
+  makeGuess(value, index) {
+    console.log(index);
     if (this.state.guess == '1') {
       this.setState({guess: value});
+      var newGuessIndex = this.state.guessIndex;
+      newGuessIndex.push(index)
+      this.setState({guessIndex: newGuessIndex});
     }
     else {
       if (this.state.guess == value) {
@@ -27,7 +31,9 @@ class Demo extends React.Component {
         nMatches.push(value);
         this.setState({matches: nMatches});
         this.setState({guess: '1'});//reset guess
+        this.setState({guessIndex: []});
       }
+      // todo else for getting it wrong
     }
   }
 
@@ -37,8 +43,8 @@ class Demo extends React.Component {
     return (
       <div className="row">
         <div className="col">
-	  <Side state={this.state} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} />
-          <Side state={this.state} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} />
+	  <Side state={this.state} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} index={0} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} index={1} guessIndex={this.state.guessIndex} />
         </div>
       </div>
     );
@@ -53,10 +59,17 @@ function Side(params) {
       </div>
     );
   }
+  if (params.guessIndex.includes(params.index)) {
+     return (
+      <div id="side-0" className="side col">
+        <Button>{params.value}</Button>
+      </div>
+    );
+  }
   else {
     return (
       <div id="side-0" className="side col">
-	<Button onClick={() => params.makeGuess(params.value)}>?</Button>
+	<Button onClick={() => params.makeGuess(params.value, params.index)}>?</Button>
       </div>
     );
   }
