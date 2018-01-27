@@ -17,9 +17,9 @@ class Demo extends React.Component {
     this.setState({moves: moves});
   }
   
-  guess() {
+  makeGuess(value) {
    // console.log("guess made");
-    var value = 'a'
+   // var value = 'a'
     if (this.state.guess == '1') {
       this.setState({guess: value});
     }
@@ -34,12 +34,12 @@ class Demo extends React.Component {
   }
 
   render() {
-    var guess = this.guess.bind(this);
+    var makeGuess = this.makeGuess.bind(this);
    // console.log(this.state.matches);
     return (
       <div className="row">
         <div className="col">
-	  <Side state={this.state} matches={this.state.matches} guess={guess} value={this.state.tiles[0]} />
+	  <Side state={this.state} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} />
         </div>
       </div>
     );
@@ -59,7 +59,7 @@ function Side(params) {
     console.log("showing ?");
     return (
       <div id="side-0" className="side col">
-	<Button onClick={() => params.guess()}>?</Button>
+	<Button onClick={() => params.makeGuess(params.value)}>?</Button>
       </div>
     );
   }
