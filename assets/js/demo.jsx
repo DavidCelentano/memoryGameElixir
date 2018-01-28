@@ -22,7 +22,7 @@ class Demo extends React.Component {
     if (this.state.guess == '1') {
       this.setState({guess: value});
       var newGuessIndex = this.state.guessIndex;
-      newGuessIndex.push(index)
+      newGuessIndex.push(index);
       this.setState({guessIndex: newGuessIndex});
     }
     else {
@@ -33,18 +33,38 @@ class Demo extends React.Component {
         this.setState({guess: '1'});//reset guess
         this.setState({guessIndex: []});
       }
-      // todo else for getting it wrong
+      else {
+        this.setState({guess: '1'});//reset guess
+       // this.setState({guessIndex: []});
+        var newGuessIndex = this.state.guessIndex;
+        newGuessIndex.push(index);
+        this.setState({guessIndex: newGuessIndex});
+        var millisecondsToWait = 2000;
+        var resetGuesses = (function() { this.setState({guessIndex: []}) }).bind(this);
+        setTimeout(function() {
+          // Whatever you want to do after the wait
+          //this.setState({guessIndex: []});
+          resetGuesses()
+        }, millisecondsToWait);
+      }
     }
   }
 
+  resetGuesses() {
+    this.setState({guessIndex: []});
+  }
+
   render() {
+    var resetGuesses = this.resetGuesses.bind(this);
     var makeGuess = this.makeGuess.bind(this);
    // console.log(this.state.matches);
     return (
       <div className="row">
         <div className="col">
-	  <Side state={this.state} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} index={0} guessIndex={this.state.guessIndex} />
-          <Side state={this.state} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} index={1} guessIndex={this.state.guessIndex} />
+	  <Side state={this.state} resetGuesses={resetGuesses} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} index={0} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} resetGuesses={resetGuesses} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[1]} index={1} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} resetGuesses={resetGuesses} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[2]} index={2} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} resetGuesses={resetGuesses} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[3]} index={3} guessIndex={this.state.guessIndex} />
         </div>
       </div>
     );
