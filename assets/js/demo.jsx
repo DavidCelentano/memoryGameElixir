@@ -9,7 +9,7 @@ export default function run_demo(root) {
 class Demo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { moves: 0, tiles:['a', 'b', 'a', 'b', 'c', 'd', 'c', 'd', 'e', 'f', 'e', 'f', 'g', 'h', 'g', 'h'], matches: [], guess: '1', guessIndex: []}; //TODO RANDOM
+    this.state = { moves: 0, tiles:['a', 'c', 'a', 'b', 'e', 'h', 'c', 'd', 'b', 'f', 'e', 'f', 'a', 'd', 'g', 'h'], matches: [], guess: '1', guessIndex: [], paused: false}; //TODO RANDOM
   }
 
   increment(moves) {
@@ -39,32 +39,37 @@ class Demo extends React.Component {
         var newGuessIndex = this.state.guessIndex;
         newGuessIndex.push(index);
         this.setState({guessIndex: newGuessIndex});
-        var millisecondsToWait = 2000;
-        var resetGuesses = (function() { this.setState({guessIndex: []}) }).bind(this);
+        this.setState({paused: true});
+        var millisecondsToWait = 1000;
+        var resetGuesses = (function() {
+          this.setState({guessIndex: []});
+          this.setState({paused: false}); }).bind(this);
         setTimeout(function() {
-          // Whatever you want to do after the wait
-          //this.setState({guessIndex: []});
           resetGuesses()
         }, millisecondsToWait);
       }
     }
   }
 
-  resetGuesses() {
+
+  resetGame() {
     this.setState({guessIndex: []});
+    this.setState({matches: []});
+    //TODO randomize new tile values
+    this.setState({guess: '1'});
+    this.setState({paused: false});
   }
 
   render() {
-    var resetGuesses = this.resetGuesses.bind(this);
     var makeGuess = this.makeGuess.bind(this);
-   // console.log(this.state.matches);
+    var resetGame = this.resetGame.bind(this);
     return (
       <div className="row">
+        <Button onClick={() => resetGame()}>Reset</Button>
         <div className="col">
-	  <Side state={this.state} resetGuesses={resetGuesses} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} index={0} guessIndex={this.state.guessIndex} />
-          <Side state={this.state} resetGuesses={resetGuesses} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[1]} index={1} guessIndex={this.state.guessIndex} />
-          <Side state={this.state} resetGuesses={resetGuesses} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[2]} index={2} guessIndex={this.state.guessIndex} />
-          <Side state={this.state} resetGuesses={resetGuesses} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[3]} index={3} guessIndex={this.state.guessIndex} />
+	  <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} index={0} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[1]} index={1} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[2]} index={2} guessIndex={this.state.guessIndex} />
         </div>
       </div>
     );
@@ -83,6 +88,13 @@ function Side(params) {
      return (
       <div id="side-0" className="side col">
         <Button>{params.value}</Button>
+      </div>
+    );
+  }
+  if (params.paused) {
+    return (
+      <div id="side-0" className="side col">
+        <Button>?</Button>
       </div>
     );
   }
