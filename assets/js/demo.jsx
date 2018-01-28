@@ -9,16 +9,14 @@ export default function run_demo(root) {
 class Demo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { moves: 0, tiles:['a', 'c', 'a', 'b', 'e', 'h', 'c', 'd', 'b', 'f', 'e', 'f', 'a', 'd', 'g', 'h'], matches: [], guess: '1', guessIndex: [], paused: false}; //TODO RANDOM
-  }
-
-  increment(moves) {
-    var moves = 1 + this.state.moves;
-    this.setState({moves: moves});
+    this.state = { moves: 0, tiles:['a', 'a', 'b', 'b', 'c', 'c', 'd', 'd', 'e', 'e', 'f', 'f', 'g', 'g', 'h', 'h'], matches: [], guess: '1', guessIndex: [], paused: false};
+    var shuffledTiles = this.shuffleArray(this.state.tiles);
+    this.setState({tiles: shuffledTiles});
   }
   
   makeGuess(value, index) {
-    console.log(index);
+    var moves = 1 + this.state.moves;
+    this.setState({moves: moves});
     if (this.state.guess == '1') {
       this.setState({guess: value});
       var newGuessIndex = this.state.guessIndex;
@@ -51,13 +49,27 @@ class Demo extends React.Component {
     }
   }
 
+// The shuffleArray function was created by "Grgur" on Stack Overflow
+// Credit - https://stackoverflow.com/questions/38101522/how-to-render-random-objects-from-an-array-in-react
+shuffleArray(array) {
+  let i = array.length - 1;
+  for (; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+  return array;
+}
 
   resetGame() {
+    var newTiles = this.shuffleArray(this.state.tiles);
+    this.setState({tiles: newTiles});
     this.setState({guessIndex: []});
     this.setState({matches: []});
-    //TODO randomize new tile values
     this.setState({guess: '1'});
     this.setState({paused: false});
+    this.setState({moves: 0});
   }
 
   render() {
@@ -65,11 +77,30 @@ class Demo extends React.Component {
     var resetGame = this.resetGame.bind(this);
     return (
       <div className="row">
-        <Button onClick={() => resetGame()}>Reset</Button>
+        <Button onClick={() => resetGame()}>Moves: {this.state.moves}<br/>Press to Reset</Button>
         <div className="col">
 	  <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} index={0} guessIndex={this.state.guessIndex} />
           <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[1]} index={1} guessIndex={this.state.guessIndex} />
           <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[2]} index={2} guessIndex={this.state.guessIndex} />
+           <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[3]} index={3} guessIndex={this.state.guessIndex} />
+        </div>
+        <div className="col">
+          <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[4]} index={4} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[5]} index={5} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[6]} index={6} guessIndex={this.state.guessIndex} />
+           <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[7]} index={7} guessIndex={this.state.guessIndex} />
+        </div>
+        <div className="col">
+          <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[8]} index={8} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[9]} index={9} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[10]} index={10} guessIndex={this.state.guessIndex} />
+           <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[11]} index={11} guessIndex={this.state.guessIndex} />
+        </div>
+        <div className="col">
+          <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[12]} index={12} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[13]} index={13} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[14]} index={14} guessIndex={this.state.guessIndex} />
+           <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[15]} index={15} guessIndex={this.state.guessIndex} />
         </div>
       </div>
     );
