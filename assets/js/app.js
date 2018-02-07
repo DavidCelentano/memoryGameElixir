@@ -27,6 +27,15 @@ function init() {
   channel.join()
     .receive("ok", resp => { console.log("Joined successfully", resp); })
     .receive("error", resp => { console.log("Unable to join", resp); });
+
+  $('#game-button').click(() => {
+    console.log("clicked");
+    let xx = $('#game-input').val();
+    channel.push('double', {xx:xx}).receive("doubled", msg => {
+      console.log("got response", msg);
+      $('#game-output').text(msg.yy);
+    })
+  });
   //let root = document.getElementById('game');
   //run_demo(root, channel);
 }
