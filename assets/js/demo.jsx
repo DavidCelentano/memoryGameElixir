@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom';
 import { Button } from 'reactstrap';
 
 export default function run_demo(root) {
-  ReactDOM.render(<Demo moves={0} />, root);
+  ReactDOM.render(<Demo channel={channel} />, root);
 }
 
 class Demo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { moves: 0, tiles:['a', 'a', 'b', 'b', 'c', 'c', 'd', 'd', 'e', 'e', 'f', 'f', 'g', 'g', 'h', 'h'], matches: [], guess: '1', guessIndex: [], paused: false};
-    var shuffledTiles = this.shuffleArray(this.state.tiles);
-    this.setState({tiles: shuffledTiles});
+    this.channel.join()
+      .receive("ok", resp => { console.log("Joined successfully", resp); })
+      .receive("error", resp => { console.log("Unable to join", resp); });
+
   }
   
   makeGuess(value, index) {
