@@ -2,19 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button } from 'reactstrap';
 
-export default function run_demo(root) {
+export default function run_demo(channel, root) {
   ReactDOM.render(<Demo channel={channel} />, root);
 }
 
 class Demo extends React.Component {
   constructor(props) {
     super(props);
-    this.channel.join()
-      .receive("ok", resp => { console.log("Joined successfully", resp); })
-      .receive("error", resp => { console.log("Unable to join", resp); });
-
+    this.channel = props.channel
   }
-  
+}
+/*  
   makeGuess(value, index) {
     var moves = 1 + this.state.moves;
     this.setState({moves: moves});
@@ -138,4 +136,4 @@ function Side(params) {
     );
   }
 }
-
+*/
