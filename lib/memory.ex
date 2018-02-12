@@ -1,9 +1,16 @@
-defmodule Memory do
-  @moduledoc """
-  Memory keeps the contexts that define your domain
-  and business logic.
+defmodule Game do
 
-  Contexts are also responsible for managing your data, regardless
-  if it comes from the database, an external API or others.
-  """
+  def new do
+    %{
+      tiles: ['?', '?', '?', '?'],
+      moves: 0,
+    }
+  end
+
+  def client_view(game) do
+    %{
+      tiles: ['?', '?', '?', '?'],
+      moves: 0,
+    }
+  end
 end

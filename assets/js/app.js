@@ -25,10 +25,11 @@ import run_demo from "./demo";
 function init() {
   let root = document.getElementById('game');
   if (root) {
-    let channel = socket.channel("games:" + window.gameName, {});
-    channel.join()
-      .receive("ok", resp => { console.log("Joined successfully", resp); })
-      .receive("error", resp => { console.log("Unable to join", resp); });
+    let channel = socket.channel("game:" + window.gameName, {});
+    console.log(window.gameName);
+//    channel.join()
+//      .receive("ok", resp => { console.log("Joined successfully", resp); })
+//      .receive("error", resp => { console.log("Unable to join", resp); });
     run_demo(channel, root);
   } 
 }

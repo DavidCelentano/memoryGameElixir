@@ -10,6 +10,26 @@ class Demo extends React.Component {
   constructor(props) {
     super(props);
     this.channel = props.channel
+    this.state = { tiles: [], moves: 0 }
+
+    this.channel.join()
+        .receive("ok", this.gotView.bind(this))
+        .receive("error", resp => { console.log("Unable to join", resp) });
+  }
+
+  gotView(view) {
+    console.log("New view", view);
+    this.setState(view.game);
+  }
+
+  render() {
+    return (
+      <div className="row">
+        <div className="col">
+          <Button>?</Button>
+        </div>
+      </div>
+    )
   }
 }
 /*  
