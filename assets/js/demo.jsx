@@ -22,11 +22,16 @@ class Demo extends React.Component {
     this.setState(view.game);
   }
 
+  sendGuess() { //TODO will take letter
+    this.channel.push("guess", { tile: 0 })
+        .receive("ok from guess", this.gotView.bind(this));
+  }
+
   render() {
     return (
       <div className="row">
         <div className="col">
-          <Button>?</Button>
+          <Button onClick={() => this.sendGuess()}>{String.fromCharCode(this.state.tiles[0])}</Button>
         </div>
       </div>
     )

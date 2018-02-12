@@ -27,15 +27,22 @@ defmodule MemoryWeb.GamesChannel do
     {:reply, {:ok, payload}, socket}
   end
 
-  def handle_in("double", payload, socket) do
-    xx = String.to_integer(payload["xx"])
-    resp = %{
-      "xx" => xx,
-      "yy" => xx * 2
-    }
-    {:reply, {:doubled, resp}, socket}
+  #def handle_in("double", payload, socket) do
+  #  xx = String.to_integer(payload["xx"])
+  #  resp = %{
+  #    "xx" => xx,
+  #    "yy" => xx * 2
+  #  }
+  #  {:reply, {:doubled, resp}, socket}
     #{:reply, {:ok, payload}, socket}
+  #end
+
+  def handle_in("guess", %{"tile" => ll}, socket) do
+    game = Game.guess(socket.assigns[:game], ll)
+    socket = assign(socket, :game, game)
+    {:reply, {:ok, %{ "game" => Game.client_view(game)}}, socket}
   end
+
 
 
   # It is also common to receive messages from the client and
