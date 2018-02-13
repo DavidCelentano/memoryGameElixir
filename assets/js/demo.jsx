@@ -24,15 +24,14 @@ class Demo extends React.Component {
 
   sendGuess() { //TODO will take letter
     this.channel.push("guess", { tile: 0 })
-        .receive("ok from guess", this.gotView.bind(this));
+        .receive("ok", this.gotView.bind(this));
   }
 
   render() {
-    console.log(this.state.guesses);
     return (
       <div className="row">
         <div className="col">
-          <Button onClick={() => this.sendGuess()}>{this.state.guesses}</Button>
+          <Button onClick={() => this.sendGuess()}>{this.state.moves}</Button>
         </div>
         <div className="col">
           <Button onClick={() => this.sendGuess()}>{String.fromCharCode(this.state.tiles[0])}</Button>
@@ -109,6 +108,7 @@ shuffleArray(array) {
         <div className="col">
 	  <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[0]} index={0} guessIndex={this.state.guessIndex} />
           <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[1]} index={1} guessIndex={this.state.guessIndex} />
+          <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[1]} index={1} guessIndex={this.state.guessIndex} />
           <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[2]} index={2} guessIndex={this.state.guessIndex} />
            <Side state={this.state} paused={this.state.paused} matches={this.state.matches} makeGuess={makeGuess} value={this.state.tiles[3]} index={3} guessIndex={this.state.guessIndex} />
         </div>
@@ -166,3 +166,4 @@ function Side(params) {
   }
 }
 */
+
