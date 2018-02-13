@@ -1,17 +1,19 @@
 defmodule Game do
 
   def new do
+# use Enum.shuffle(board)
     %{
       board: ['a', 'a', 'b', 'b'],
+      tiles: ['?', '?', '?', '?'],
       moves: 0,
       matches: [],
-      currentGuess: -1,
+      currentGuess: 'z',
     }
   end
 
   def client_view(game) do
     %{
-      tiles: ['?', '?', '?', '?'],
+      tiles: game.tiles,
       moves: game.moves,
     }
   end
@@ -19,9 +21,28 @@ defmodule Game do
   def guess(game, tile) do
     moves = game.moves
     moves = moves + 1
-    IO.puts moves
-    Map.put(game, :moves, moves)
-    #game 
+
+    if game.currentGuess == 'z' do
+      tiles = game.tiles
+      tiles = List.replace_at(tiles, tile, Enum.at(game.board, tile))
+      Map.put(game, :moves, moves) 
+      |> Map.put(:tiles, tiles) 
+      |> Map.put(:currentGuess, Enum.at(game.board, tile))
+    else
+      if game.currentGuess == Enum.at(board, tile) do
+        matches = game.matches
+        matches = matches + [game.currentGuess]
+        newBoard = Enum.map(game.board, fn(x) -> 
+          if Enum.member?(matches, x) do
+            x
+          else
+            '?'
+          end end)
+      else
+        # not a match
+      end
+    end
+    
   end
 
 end
