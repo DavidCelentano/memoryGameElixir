@@ -2,23 +2,26 @@ defmodule Game do
 
   def new do
     %{
-      tiles: ['!', '?', '?', '?'],
+      board: ['a', 'a', 'b', 'b'],
       moves: 0,
+      matches: [],
+      currentGuess: -1,
     }
   end
 
   def client_view(game) do
     %{
-      tiles: ['*', '?', '?', '?'],
-      moves: 0,
+      tiles: ['?', '?', '?', '?'],
+      moves: game.moves,
     }
   end
 
   def guess(game, tile) do
-    if tile == 0 do
-      raise "heyyyyyy"
-    else
-      raise "hoooooo"
-    end
+    moves = game.moves
+    moves = moves + 1
+    IO.puts moves
+    Map.put(game, :moves, moves)
+    #game 
   end
+
 end

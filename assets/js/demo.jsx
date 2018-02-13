@@ -28,8 +28,12 @@ class Demo extends React.Component {
   }
 
   render() {
+    console.log(this.state.guesses);
     return (
       <div className="row">
+        <div className="col">
+          <Button onClick={() => this.sendGuess()}>{this.state.guesses}</Button>
+        </div>
         <div className="col">
           <Button onClick={() => this.sendGuess()}>{String.fromCharCode(this.state.tiles[0])}</Button>
         </div>
